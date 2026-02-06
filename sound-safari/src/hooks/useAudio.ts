@@ -194,3 +194,104 @@ export function useSoundEffects() {
 
   return { playPop, playSuccess, playMagic, playBubblePop, playChomp, playWhoosh };
 }
+
+// Recording hook for record/playback feature
+export function useRecording() {
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const audioUrlRef = useRef<string | null>(null);
+  const isRecordingRef = useRef(false);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  const startRecording = useCallback(async (): Promise<boolean> => {
+    try {
+      // Clean up previous recording
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
+      }
+      audioChunksRef.current = [];
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        audioUrlRef.current = URL.createObjectURL(audioBlob);
+        
+        // Stop all tracks
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+        }
+      };
+
+      mediaRecorder.start();
+      isRecordingRef.current = true;
+      return true;
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+      return false;
+    }
+  }, []);
+
+  const stopRecording = useCallback((): Promise<string | null> => {
+    return new Promise((resolve) => {
+      if (!mediaRecorderRef.current || !isRecordingRef.current) {
+        resolve(null);
+        return;
+      }
+
+      mediaRecorderRef.current.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        audioUrlRef.current = URL.createObjectURL(audioBlob);
+        
+        // Stop all tracks
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+        }
+        
+        isRecordingRef.current = false;
+        resolve(audioUrlRef.current);
+      };
+
+      mediaRecorderRef.current.stop();
+    });
+  }, []);
+
+  const playRecording = useCallback((): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      if (!audioUrlRef.current) {
+        reject(new Error('No recording available'));
+        return;
+      }
+
+      const audio = new Audio(audioUrlRef.current);
+      audio.onended = () => resolve();
+      audio.onerror = () => reject(new Error('Playback failed'));
+      audio.play();
+    });
+  }, []);
+
+  const hasRecording = useCallback(() => {
+    return audioUrlRef.current !== null;
+  }, []);
+
+  const clearRecording = useCallback(() => {
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current);
+      audioUrlRef.current = null;
+    }
+    audioChunksRef.current = [];
+  }, []);
+
+  return { startRecording, stopRecording, playRecording, hasRecording, clearRecording };
+}

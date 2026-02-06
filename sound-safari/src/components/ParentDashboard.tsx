@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import type { Progress } from '../types';
 import { soundCategories } from '../data/words';
+import { VoiceRecorder } from './VoiceRecorder';
+import { useVoiceProfiles } from '../hooks/useVoiceProfiles';
 import './ParentDashboard.css';
 
 interface ParentDashboardProps {
@@ -11,6 +13,7 @@ interface ParentDashboardProps {
 
 export function ParentDashboard({ progress, onBack, onReset }: ParentDashboardProps) {
   const totalPractice = Object.values(progress.soundsPracticed).reduce((a, b) => a + b, 0);
+  const voiceProfiles = useVoiceProfiles();
 
   const handleReset = () => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
@@ -85,6 +88,8 @@ export function ParentDashboard({ progress, onBack, onReset }: ParentDashboardPr
             })}
           </div>
         </div>
+
+        <VoiceRecorder voiceProfiles={voiceProfiles} />
 
         <div className="therapy-tips">
           <h3>💡 Tips for Parents</h3>

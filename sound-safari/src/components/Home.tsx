@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import type { SoundCategory } from '../types';
 import { SoundButton } from './SoundButton';
-import { useSoundEffects } from '../hooks/useAudio';
+import { useSpeech, useSoundEffects } from '../hooks/useAudio';
 import './Home.css';
 
 interface HomeProps {
@@ -22,9 +22,20 @@ export function Home({
   onOpenDashboard 
 }: HomeProps) {
   const { playPop, playMagic } = useSoundEffects();
+  const { speak } = useSpeech();
 
   const handleGameSelect = (game: 'bubbles' | 'monster' | 'memory' | 'train' | 'treasure' | 'stars') => {
     playMagic();
+    // Speak the game name for non-readers
+    const gameNames: Record<string, string> = {
+      bubbles: "Pop the bubbles!",
+      monster: "Feed the monster!",
+      memory: "Find the matches!",
+      train: "Build a train!",
+      treasure: "Find the treasure!",
+      stars: "Catch the stars!"
+    };
+    speak(gameNames[game], { rate: 0.9 });
     onSelectGame(game);
   };
 
@@ -52,7 +63,7 @@ export function Home({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            🏆 Stickers
+            🏆
           </motion.button>
           <motion.button
             className="header-btn parent-btn"
@@ -60,13 +71,13 @@ export function Home({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            👨‍👩‍👧 Parents
+            👨‍👩‍👧
           </motion.button>
         </div>
       </header>
 
       <section className="games-section">
-        <h2>🎮 Fun Games</h2>
+        <h2>🎮 Games</h2>
         <div className="games-grid">
           <motion.button
             className="game-card bubbles"
@@ -75,7 +86,7 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">🫧</span>
-            <span className="game-name">Pop the Bubbles</span>
+            <span className="game-name">Bubbles</span>
           </motion.button>
           <motion.button
             className="game-card monster"
@@ -84,7 +95,7 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">👾</span>
-            <span className="game-name">Feed the Monster</span>
+            <span className="game-name">Monster</span>
           </motion.button>
           <motion.button
             className="game-card memory"
@@ -93,7 +104,7 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">🧠</span>
-            <span className="game-name">Memory Match</span>
+            <span className="game-name">Memory</span>
           </motion.button>
           <motion.button
             className="game-card train"
@@ -102,7 +113,7 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">🚂</span>
-            <span className="game-name">Sound Train</span>
+            <span className="game-name">Train</span>
           </motion.button>
           <motion.button
             className="game-card treasure"
@@ -111,7 +122,7 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">🏴‍☠️</span>
-            <span className="game-name">Treasure Hunt</span>
+            <span className="game-name">Treasure</span>
           </motion.button>
           <motion.button
             className="game-card stars"
@@ -120,16 +131,16 @@ export function Home({
             whileTap={{ scale: 0.95 }}
           >
             <span className="game-icon">⭐</span>
-            <span className="game-name">Catch the Stars</span>
+            <span className="game-name">Stars</span>
           </motion.button>
         </div>
       </section>
 
       <section className="sounds-section">
-        <h2>🔤 Practice Sounds</h2>
+        <h2>🔤 Sounds</h2>
         
         <div className="difficulty-group">
-          <h3>⭐ Easy Sounds</h3>
+          <h3>⭐ Easy</h3>
           <div className="sounds-grid">
             {easySounds.map((category, index) => (
               <motion.div
@@ -149,7 +160,7 @@ export function Home({
         </div>
 
         <div className="difficulty-group">
-          <h3>⭐⭐ Medium Sounds</h3>
+          <h3>⭐⭐ Medium</h3>
           <div className="sounds-grid">
             {mediumSounds.map((category, index) => (
               <motion.div
@@ -169,7 +180,7 @@ export function Home({
         </div>
 
         <div className="difficulty-group">
-          <h3>⭐⭐⭐ Challenge Sounds</h3>
+          <h3>⭐⭐⭐ Hard</h3>
           <div className="sounds-grid">
             {hardSounds.map((category, index) => (
               <motion.div

@@ -65,13 +65,13 @@ export function SoundZoo({ category, onBack, onComplete, onEarnSticker, practice
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
         <div 
           className="category-title"
           style={{ color: category.color }}
         >
-          {category.sound} Sound
+          {category.sound} {category.words[0]?.emoji}
         </div>
         <div className="session-score">
           {completedInSession} ⭐
@@ -129,7 +129,7 @@ export function SoundZoo({ category, onBack, onComplete, onEarnSticker, practice
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          👆 Tap the card to hear the sound!
+          👆
         </motion.div>
       </div>
 

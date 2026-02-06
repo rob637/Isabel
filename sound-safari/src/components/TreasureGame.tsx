@@ -103,6 +103,11 @@ export function TreasureGame({ onBack, onComplete, onEarnSticker }: TreasureGame
             const sticker = onEarnStickerRef.current();
             setEarnedSticker(sticker);
             setShowCelebration(true);
+          } else {
+            // Reinforce the word after a beat
+            setTimeout(() => {
+              speakWordRef.current(spot.word!.word, spot.word!.sound);
+            }, 1500);
           }
           return newScore;
         });
@@ -123,8 +128,8 @@ export function TreasureGame({ onBack, onComplete, onEarnSticker }: TreasureGame
         setTimeout(() => {
           hasInitialized.current = false;
           generateRound();
-        }, 2500);
-      }, 1000);
+        }, 1200);
+      }, 500);
     }
   }, [treasuresFound, spots, generateRound, playSuccess]);
 
@@ -142,7 +147,7 @@ export function TreasureGame({ onBack, onComplete, onEarnSticker }: TreasureGame
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
         <h1>🏴‍☠️ Treasure Hunt</h1>
         <div className="treasure-score">{score} 💎</div>

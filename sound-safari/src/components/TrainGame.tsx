@@ -58,7 +58,9 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
     setTrainCars([]);
 
     setTimeout(() => {
-      speakRef.current(`Build a train with ${sound} words!`, { rate: 0.8 });
+      // Speak an example word to help non-readers
+      const exampleWord = shuffledMatching[0]?.word || sound;
+      speakRef.current(`Find words like ${exampleWord}!`, { rate: 0.8 });
     }, 300);
   }, [allWords]);
 
@@ -86,14 +88,19 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
           setEarnedSticker(sticker);
           setShowCelebration(true);
         } else {
-          celebrateRef.current("Choo choo!");
+          // Reinforce the word after a beat
+          setTimeout(() => {
+            speakWordRef.current(word.word, word.sound);
+          }, 1200);
         }
         return newScore;
       });
     } else {
       // Wrong
       playWhoosh();
-      speakRef.current("That doesn't start with " + targetSound, { rate: 0.9 });
+      setTimeout(() => {
+        speakRef.current("Try another one!", { rate: 0.9 });
+      }, 1500);
     }
   }, [targetSound, playMagic, playWhoosh]);
 
@@ -107,8 +114,8 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
         setTimeout(() => {
           hasInitialized.current = false;
           generateRound();
-        }, 2500);
-      }, 1000);
+        }, 1200);
+      }, 500);
     }
   }, [options, trainCars, targetSound, generateRound, playSuccess]);
 
@@ -128,7 +135,7 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
         <h1>🚂 Sound Train</h1>
         <div className="train-score">{score} Cars</div>
@@ -164,7 +171,6 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
                 style={{ backgroundColor: car.color + '88' }}
               >
                 <span className="car-emoji">{car.emoji}</span>
-                <span className="car-word">{car.word}</span>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -182,7 +188,6 @@ export function TrainGame({ onBack, onComplete, onEarnSticker }: TrainGameProps)
             style={{ backgroundColor: word.color + '66', borderColor: word.color }}
           >
             <span className="option-emoji">{word.emoji}</span>
-            <span className="option-word">{word.word}</span>
           </motion.button>
         ))}
       </div>

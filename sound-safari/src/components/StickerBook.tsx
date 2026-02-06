@@ -27,9 +27,9 @@ export function StickerBook({ stickers, onBack }: StickerBookProps) {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
-        <div className="sticker-book-title">My Stickers</div>
+        <div className="sticker-book-title">🏆 My Stickers</div>
         <div className="sticker-count">
           {unlockedCount} / {stickers.length}
         </div>
@@ -57,15 +57,12 @@ export function StickerBook({ stickers, onBack }: StickerBookProps) {
             <div className="sticker-emoji">
               {sticker.unlocked ? sticker.emoji : '❓'}
             </div>
-            {sticker.unlocked && (
-              <div className="sticker-name">{sticker.name}</div>
-            )}
           </motion.div>
         ))}
       </div>
 
       <div className="sticker-hint">
-        Practice more words to earn stickers!
+        🌟
       </div>
     </div>
   );

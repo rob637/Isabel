@@ -100,19 +100,35 @@ export const soundCategories: SoundCategory[] = [
     ]
   },
   {
-    sound: 'K',
-    label: 'K Sound',
+    sound: 'C',
+    label: 'C Sound',
     color: '#8E44AD',
     difficulty: 'medium',
     words: [
-      { id: 'k1', word: 'Cat', sound: 'K', emoji: '🐱', color: '#FF8C00', emphasisWord: 'K-K-Cat!' },
-      { id: 'k2', word: 'Cake', sound: 'K', emoji: '🎂', color: '#FFB6C1', emphasisWord: 'K-K-Cake!' },
-      { id: 'k3', word: 'Kangaroo', sound: 'K', emoji: '🦘', color: '#D2691E', emphasisWord: 'K-K-Kangaroo!' },
-      { id: 'k4', word: 'Key', sound: 'K', emoji: '🔑', color: '#FFD700', emphasisWord: 'K-K-Key!' },
-      { id: 'k5', word: 'Kite', sound: 'K', emoji: '🪁', color: '#FF69B4', emphasisWord: 'K-K-Kite!' },
-      { id: 'k6', word: 'King', sound: 'K', emoji: '🤴', color: '#9400D3', emphasisWord: 'K-K-King!' },
-      { id: 'k7', word: 'Koala', sound: 'K', emoji: '🐨', color: '#808080', emphasisWord: 'K-K-Koala!' },
-      { id: 'k8', word: 'Carrot', sound: 'K', emoji: '🥕', color: '#FF7F50', emphasisWord: 'K-K-Carrot!' },
+      { id: 'c1', word: 'Cat', sound: 'C', emoji: '🐱', color: '#FF8C00', emphasisWord: 'C-C-Cat!' },
+      { id: 'c2', word: 'Cake', sound: 'C', emoji: '🎂', color: '#FFB6C1', emphasisWord: 'C-C-Cake!' },
+      { id: 'c3', word: 'Carrot', sound: 'C', emoji: '🥕', color: '#FF7F50', emphasisWord: 'C-C-Carrot!' },
+      { id: 'c4', word: 'Cow', sound: 'C', emoji: '🐄', color: '#2F4F4F', emphasisWord: 'C-C-Cow!' },
+      { id: 'c5', word: 'Cup', sound: 'C', emoji: '☕', color: '#D2691E', emphasisWord: 'C-C-Cup!' },
+      { id: 'c6', word: 'Cookie', sound: 'C', emoji: '🍪', color: '#DEB887', emphasisWord: 'C-C-Cookie!' },
+      { id: 'c7', word: 'Car', sound: 'C', emoji: '🚗', color: '#DC143C', emphasisWord: 'C-C-Car!' },
+      { id: 'c8', word: 'Corn', sound: 'C', emoji: '🌽', color: '#FFD700', emphasisWord: 'C-C-Corn!' },
+    ]
+  },
+  {
+    sound: 'K',
+    label: 'K Sound',
+    color: '#9B59B6',
+    difficulty: 'medium',
+    words: [
+      { id: 'k1', word: 'Kangaroo', sound: 'K', emoji: '🦘', color: '#D2691E', emphasisWord: 'K-K-Kangaroo!' },
+      { id: 'k2', word: 'Key', sound: 'K', emoji: '🔑', color: '#FFD700', emphasisWord: 'K-K-Key!' },
+      { id: 'k3', word: 'Kite', sound: 'K', emoji: '🪁', color: '#FF69B4', emphasisWord: 'K-K-Kite!' },
+      { id: 'k4', word: 'King', sound: 'K', emoji: '🤴', color: '#9400D3', emphasisWord: 'K-K-King!' },
+      { id: 'k5', word: 'Koala', sound: 'K', emoji: '🐨', color: '#808080', emphasisWord: 'K-K-Koala!' },
+      { id: 'k6', word: 'Kitten', sound: 'K', emoji: '🐈', color: '#FFB6C1', emphasisWord: 'K-K-Kitten!' },
+      { id: 'k7', word: 'Kitchen', sound: 'K', emoji: '🍳', color: '#F5F5DC', emphasisWord: 'K-K-Kitchen!' },
+      { id: 'k8', word: 'Kick', sound: 'K', emoji: '⚽', color: '#228B22', emphasisWord: 'K-K-Kick!' },
     ]
   },
   {

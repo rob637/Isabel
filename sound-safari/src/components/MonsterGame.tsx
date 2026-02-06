@@ -25,7 +25,7 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
   const [monsterMood, setMonsterMood] = useState<'happy' | 'waiting' | 'eating'>('waiting');
 
   const { speakWord, speak, celebrate } = useSpeech();
-  const { playChomp, playSuccess, playWhoosh } = useSoundEffects();
+  const { playChomp, playSuccess } = useSoundEffects();
 
   // Refs to avoid re-render loops
   const speakRef = useRef(speak);
@@ -71,8 +71,6 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
   const handleOptionClick = useCallback((word: WordCardType) => {
     if (isEating) return;
 
-    speakWordRef.current(word.word, word.sound);
-
     if (word.id === targetWord?.id) {
       // Correct!
       setIsEating(true);
@@ -91,7 +89,10 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
             setEarnedSticker(sticker);
             setShowCelebration(true);
           } else {
-            celebrateRef.current("Yummy!");
+            // Reinforce the word - say it after a beat
+            setTimeout(() => {
+              speakWordRef.current(word.word, word.sound);
+            }, 500);
           }
           return newScore;
         });
@@ -104,11 +105,13 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
         }, 1500);
       }, 500);
     } else {
-      // Wrong - encourage
-      playWhoosh();
-      speakRef.current("Try again!", { rate: 0.9 });
+      // Wrong - speak what it was, encourage
+      speakWordRef.current(word.word, word.sound);
+      setTimeout(() => {
+        speakRef.current("Try again!", { rate: 0.9 });
+      }, 1500);
     }
-  }, [isEating, targetWord?.id, playChomp, playSuccess, playWhoosh, generateRound]);
+  }, [isEating, targetWord?.id, playChomp, playSuccess, generateRound]);
 
   const handleTargetTap = useCallback(() => {
     if (targetWord) {
@@ -130,9 +133,9 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
-        <div className="game-title">Feed the Monster!</div>
+        <div className="game-title">👾 Feed the Monster!</div>
         <div className="game-score">
           {score} 🍴
         </div>
@@ -189,7 +192,6 @@ export function MonsterGame({ onBack, onComplete, onEarnSticker }: MonsterGamePr
               disabled={isEating}
             >
               <span className="option-emoji">{word.emoji}</span>
-              <span className="option-word">{word.word}</span>
             </motion.button>
           ))}
         </AnimatePresence>

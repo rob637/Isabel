@@ -20,20 +20,14 @@
 }
 
 .sound-letter {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.sound-label {
-  font-size: 14px;
+.sound-emoji {
+  font-size: 40px;
   margin-top: 4px;
-  opacity: 0.9;
-}
-
-.sound-difficulty {
-  font-size: 12px;
-  margin-top: 6px;
 }
 
 .practice-badge {

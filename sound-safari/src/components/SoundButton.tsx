@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import type { SoundCategory } from '../types';
-import { useSoundEffects } from '../hooks/useAudio';
+import { useSpeech, useSoundEffects } from '../hooks/useAudio';
 import './SoundButton.css';
 
 interface SoundButtonProps {
@@ -11,19 +11,13 @@ interface SoundButtonProps {
 
 export function SoundButton({ category, practiceCount, onClick }: SoundButtonProps) {
   const { playPop } = useSoundEffects();
+  const { speak } = useSpeech();
 
   const handleClick = () => {
     playPop();
+    // Speak the sound for non-readers
+    speak(`${category.sound}! Let's practice ${category.sound}!`, { rate: 0.9 });
     onClick();
-  };
-
-  const getDifficultyLabel = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy': return '⭐';
-      case 'medium': return '⭐⭐';
-      case 'hard': return '⭐⭐⭐';
-      default: return '';
-    }
   };
 
   return (
@@ -35,11 +29,10 @@ export function SoundButton({ category, practiceCount, onClick }: SoundButtonPro
       onClick={handleClick}
     >
       <div className="sound-letter">{category.sound}</div>
-      <div className="sound-label">{category.label}</div>
-      <div className="sound-difficulty">{getDifficultyLabel(category.difficulty)}</div>
+      <div className="sound-emoji">{category.words[0]?.emoji || '🔤'}</div>
       {practiceCount > 0 && (
         <div className="practice-badge">
-          {practiceCount} ✓
+          ⭐
         </div>
       )}
     </motion.button>

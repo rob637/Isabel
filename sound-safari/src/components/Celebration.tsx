@@ -131,7 +131,7 @@ export function Celebration({ show, onComplete, sticker }: CelebrationProps) {
               animate={{ scale: 1, y: 0 }}
               transition={{ delay: 1, type: 'spring', damping: 8 }}
             >
-              <div className="sticker-text">New Sticker!</div>
+              <div className="sticker-text">⭐ New Sticker!</div>
               <motion.div
                 className="sticker-emoji"
                 animate={{ 

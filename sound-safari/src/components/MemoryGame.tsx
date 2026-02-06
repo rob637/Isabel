@@ -27,16 +27,18 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
   const [earnedSticker, setEarnedSticker] = useState<{ emoji: string; name: string } | null>(null);
   const [isChecking, setIsChecking] = useState(false);
 
-  const { speakWord, celebrate } = useSpeech();
+  const { speakWord, speak, celebrate } = useSpeech();
   const { playPop, playSuccess, playWhoosh } = useSoundEffects();
 
   // Refs to prevent loops
+  const speakRef = useRef(speak);
   const speakWordRef = useRef(speakWord);
   const celebrateRef = useRef(celebrate);
   const onCompleteRef = useRef(onComplete);
   const onEarnStickerRef = useRef(onEarnSticker);
   const hasInitialized = useRef(false);
   
+  speakRef.current = speak;
   speakWordRef.current = speakWord;
   celebrateRef.current = celebrate;
   onCompleteRef.current = onComplete;
@@ -66,6 +68,10 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
     if (!hasInitialized.current) {
       hasInitialized.current = true;
       initializeGame();
+      // Intro voice for non-readers
+      setTimeout(() => {
+        speakRef.current("Find the matching pictures!", { rate: 0.85 });
+      }, 300);
     }
   }, [initializeGame]);
 
@@ -109,7 +115,10 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
               setEarnedSticker(sticker);
               setShowCelebration(true);
             } else {
-              celebrateRef.current("Great match!");
+              // Reinforce the matched word
+              setTimeout(() => {
+                speakWordRef.current(firstCard.word.word, firstCard.word.sound);
+              }, 500);
             }
             return newScore;
           });
@@ -124,7 +133,7 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
         }
         setFlippedCards([]);
         setIsChecking(false);
-      }, 1000);
+      }, 700);
     }
   }, [cards, flippedCards, isChecking, playPop, playSuccess, playWhoosh]);
 
@@ -136,8 +145,8 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
         setTimeout(() => {
           hasInitialized.current = false;
           initializeGame();
-        }, 2000);
-      }, 500);
+        }, 1200);
+      }, 300);
     }
   }, [cards, initializeGame]);
 
@@ -155,7 +164,7 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
         <h1>🧠 Memory Match</h1>
         <div className="memory-score">{score} Matches</div>
@@ -173,20 +182,17 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
             onClick={() => handleCardClick(card.id)}
             whileHover={{ scale: card.isMatched ? 1 : 1.05 }}
             whileTap={{ scale: 0.95 }}
-            initial={{ rotateY: 0 }}
-            animate={{ 
-              rotateY: card.isFlipped || card.isMatched ? 180 : 0,
-              scale: card.isMatched ? 0.9 : 1
-            }}
-            transition={{ duration: 0.3 }}
           >
-            <div className="card-front">
-              <span className="card-question">?</span>
-            </div>
-            <div className="card-back" style={{ backgroundColor: card.word.color + '44' }}>
-              <span className="card-emoji">{card.word.emoji}</span>
-              <span className="card-word">{card.word.word}</span>
-            </div>
+            {card.isFlipped || card.isMatched ? (
+              <div className="card-back" style={{ backgroundColor: card.word.color + '44' }}>
+                <span className="card-emoji">{card.word.emoji}</span>
+                <span className="card-word">{card.word.word}</span>
+              </div>
+            ) : (
+              <div className="card-front">
+                <span className="card-question">?</span>
+              </div>
+            )}
           </motion.div>
         ))}
       </div>

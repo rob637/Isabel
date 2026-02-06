@@ -1,0 +1,310 @@
+.voice-recorder {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.voice-recorder-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.voice-recorder-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+}
+
+.profile-list {
+  margin-bottom: 1rem;
+}
+
+.profile-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  background: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.profile-button:hover {
+  border-color: #667eea;
+}
+
+.profile-button.selected {
+  border-color: #667eea;
+  background: #f0f0ff;
+}
+
+.profile-button.active {
+  border-color: #27ae60;
+}
+
+.profile-emoji {
+  font-size: 1.5rem;
+}
+
+.active-badge {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.add-profile-button {
+  padding: 0.5rem 1rem;
+  border: 2px dashed #ccc;
+  border-radius: 25px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.add-profile-button:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+/* Add Profile Modal */
+.add-profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.add-profile-content {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+}
+
+.add-profile-content h4 {
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.emoji-selector {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.emoji-option {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  background: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.emoji-option:hover {
+  border-color: #667eea;
+}
+
+.emoji-option.selected {
+  border-color: #667eea;
+  background: #f0f0ff;
+}
+
+.profile-name-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.profile-name-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.cancel-button,
+.save-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cancel-button {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.save-button {
+  background: #667eea;
+  color: white;
+}
+
+/* Profile Recordings */
+.profile-recordings {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.profile-recordings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.profile-recordings-header h4 {
+  margin: 0;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.use-voice-button {
+  padding: 0.5rem 1rem;
+  border: 2px solid #27ae60;
+  border-radius: 20px;
+  background: white;
+  color: #27ae60;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.use-voice-button.active {
+  background: #27ae60;
+  color: white;
+}
+
+.delete-profile-button {
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Phrase List */
+.phrase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.phrase-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  gap: 1rem;
+}
+
+.phrase-text {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.phrase-category {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  background: #667eea;
+  color: white;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+}
+
+.phrase-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phrase-actions button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-button {
+  background: #4ecdc4;
+}
+
+.play-button.playing {
+  background: #27ae60;
+}
+
+.record-button {
+  background: #ff6b6b;
+}
+
+.record-button.recording {
+  background: #ff0000;
+}
+
+.delete-recording-button {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.no-profiles {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .phrase-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .phrase-actions {
+    align-self: flex-end;
+  }
+}

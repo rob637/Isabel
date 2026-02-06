@@ -64,7 +64,7 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
     if (hasInitialized.current) return;
     hasInitialized.current = true;
     
-    const initialBubbles = Array.from({ length: 5 }, () => createBubble());
+    const initialBubbles = Array.from({ length: 8 }, () => createBubble());
     setBubbles(initialBubbles);
     
     // Set first target
@@ -87,7 +87,7 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
         x: Math.random() * 70 + 15,
         y: 100 + Math.random() * 20,
         size: 80 + Math.random() * 40,
-        speed: 0.3 + Math.random() * 0.3,
+        speed: 0.8 + Math.random() * 0.5,
       };
     };
     
@@ -97,7 +97,7 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
           .map(b => ({ ...b, y: b.y - b.speed }))
           .filter(b => b.y > -20);
 
-        while (updated.length < 5) {
+        while (updated.length < 8) {
           updated.push(createBubbleForInterval());
         }
 
@@ -123,6 +123,9 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
       playBubblePop();
       playSuccess();
       
+      // Speak the correct word
+      speakWordRef.current(bubble.word.word, bubble.word.sound);
+      
       setBubbles(prev => prev.filter(b => b.id !== bubble.id));
       onCompleteRef.current(bubble.word.id);
       
@@ -133,7 +136,10 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
           setEarnedSticker(sticker);
           setShowCelebration(true);
         } else {
-          celebrateRef.current("Yes!");
+          // Reinforce the word after a beat
+          setTimeout(() => {
+            speakWordRef.current(bubble.word.word, bubble.word.sound);
+          }, 1500);
         }
         return newScore;
       });
@@ -142,7 +148,9 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
       needsNewTarget.current = true;
       setCurrentTarget(null);
     } else {
+      // Wrong bubble - still pop it, speak the word, and keep going
       playBubblePop();
+      setBubbles(prev => prev.filter(b => b.id !== bubble.id));
       speakWordRef.current(bubble.word.word, bubble.word.sound);
     }
   }, [currentTarget, playBubblePop, playSuccess]);
@@ -167,9 +175,9 @@ export function BubbleGame({ onBack, onComplete, onEarnSticker }: BubbleGameProp
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
-        <div className="game-title">Pop the Bubbles!</div>
+        <div className="game-title">🫧 Pop the Bubbles!</div>
         <div className="game-score">
           {score} 🫧
         </div>

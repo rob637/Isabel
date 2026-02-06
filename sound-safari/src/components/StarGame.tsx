@@ -67,14 +67,16 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
       id: `${word.id}-${Date.now()}-${i}`,
       word,
       x: 10 + Math.random() * 70, // 10-80% from left
-      delay: i * 0.8, // Stagger the falls
+      delay: i * 0.3, // Stagger the falls
     }));
     
     setStars(newStars);
     setCaught(0);
 
     setTimeout(() => {
-      speakRef.current(`Catch the ${sound} stars!`, { rate: 0.8 });
+      // Speak example words to help non-readers
+      const exampleWord = shuffledMatching[0]?.word || sound;
+      speakRef.current(`Catch stars like ${exampleWord}!`, { rate: 0.8 });
     }, 300);
   }, [allWords]);
 
@@ -104,14 +106,19 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
           setEarnedSticker(sticker);
           setShowCelebration(true);
         } else {
-          celebrateRef.current("Twinkle twinkle!");
+          // Reinforce the word after a beat
+          setTimeout(() => {
+            speakWordRef.current(star.word.word, star.word.sound);
+          }, 1200);
         }
         return newScore;
       });
     } else {
-      // Wrong star
+      // Wrong star - wait then encourage
       playWhoosh();
-      speakRef.current("That's not a " + targetSound + " star!", { rate: 0.9 });
+      setTimeout(() => {
+        speakRef.current("Try another star!", { rate: 0.9 });
+      }, 1500);
     }
   }, [targetSound, playMagic, playWhoosh]);
 
@@ -125,8 +132,8 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
         setTimeout(() => {
           hasInitialized.current = false;
           generateRound();
-        }, 2500);
-      }, 500);
+        }, 1200);
+      }, 300);
     }
   }, [stars, targetSound, caught, generateRound, playSuccess]);
 
@@ -147,9 +154,9 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          ← Back
+          🏠
         </motion.button>
-        <h1>⭐ Catch the Stars</h1>
+        <h1>⭐ Star Catcher</h1>
         <div className="star-score">{score} ⭐</div>
       </div>
 
@@ -197,7 +204,7 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
               }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ 
-                duration: 8,
+                duration: 4,
                 delay: star.delay,
                 ease: 'linear',
               }}
@@ -210,7 +217,6 @@ export function StarGame({ onBack, onComplete, onEarnSticker }: StarGameProps) {
               whileTap={{ scale: 0.8 }}
             >
               <span className="star-emoji">{star.word.emoji}</span>
-              <span className="star-word">{star.word.word}</span>
             </motion.button>
           ))}
         </AnimatePresence>
