@@ -47,9 +47,9 @@ export function MemoryGame({ onBack, onComplete, onEarnSticker }: MemoryGameProp
   const allWords = useMemo(() => soundCategories.flatMap(cat => cat.words), []);
 
   const initializeGame = useCallback(() => {
-    // Pick 4 random words (will create 8 cards - pairs)
+    // Pick 3 random words (will create 6 cards - pairs) - fewer for toddlers
     const shuffled = [...allWords].sort(() => Math.random() - 0.5);
-    const selectedWords = shuffled.slice(0, 4);
+    const selectedWords = shuffled.slice(0, 3);
     
     // Create pairs
     const gamecards: MemoryCard[] = [];

@@ -199,23 +199,27 @@ export function useSoundEffects() {
 export function useRecording() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const audioUrlRef = useRef<string | null>(null);
-  const isRecordingRef = useRef(false);
+  const audioBlobRef = useRef<Blob | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const startRecording = useCallback(async (): Promise<boolean> => {
     try {
       // Clean up previous recording
-      if (audioUrlRef.current) {
-        URL.revokeObjectURL(audioUrlRef.current);
-        audioUrlRef.current = null;
-      }
+      audioBlobRef.current = null;
       audioChunksRef.current = [];
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
       
-      const mediaRecorder = new MediaRecorder(stream);
+      // Try to use a widely supported format
+      let options = {};
+      if (MediaRecorder.isTypeSupported('audio/webm')) {
+        options = { mimeType: 'audio/webm' };
+      } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+        options = { mimeType: 'audio/mp4' };
+      }
+      
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
 
       mediaRecorder.ondataavailable = (event) => {
@@ -224,18 +228,8 @@ export function useRecording() {
         }
       };
 
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        audioUrlRef.current = URL.createObjectURL(audioBlob);
-        
-        // Stop all tracks
-        if (streamRef.current) {
-          streamRef.current.getTracks().forEach(track => track.stop());
-        }
-      };
-
-      mediaRecorder.start();
-      isRecordingRef.current = true;
+      // Request data every 100ms to ensure we capture audio
+      mediaRecorder.start(100);
       return true;
     } catch (error) {
       console.error('Failed to start recording:', error);
@@ -245,51 +239,69 @@ export function useRecording() {
 
   const stopRecording = useCallback((): Promise<string | null> => {
     return new Promise((resolve) => {
-      if (!mediaRecorderRef.current || !isRecordingRef.current) {
+      const mediaRecorder = mediaRecorderRef.current;
+      
+      if (!mediaRecorder || mediaRecorder.state === 'inactive') {
         resolve(null);
         return;
       }
 
-      mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        audioUrlRef.current = URL.createObjectURL(audioBlob);
-        
+      mediaRecorder.onstop = () => {
         // Stop all tracks
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop());
+          streamRef.current = null;
         }
         
-        isRecordingRef.current = false;
-        resolve(audioUrlRef.current);
+        if (audioChunksRef.current.length > 0) {
+          const mimeType = mediaRecorder.mimeType || 'audio/webm';
+          audioBlobRef.current = new Blob(audioChunksRef.current, { type: mimeType });
+          resolve(URL.createObjectURL(audioBlobRef.current));
+        } else {
+          resolve(null);
+        }
       };
 
-      mediaRecorderRef.current.stop();
+      mediaRecorder.stop();
     });
   }, []);
 
   const playRecording = useCallback((): Promise<void> => {
     return new Promise((resolve, reject) => {
-      if (!audioUrlRef.current) {
+      if (!audioBlobRef.current) {
+        console.error('No recording blob available');
         reject(new Error('No recording available'));
         return;
       }
 
-      const audio = new Audio(audioUrlRef.current);
-      audio.onended = () => resolve();
-      audio.onerror = () => reject(new Error('Playback failed'));
-      audio.play();
+      const url = URL.createObjectURL(audioBlobRef.current);
+      const audio = new Audio(url);
+      
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        resolve();
+      };
+      
+      audio.onerror = (e) => {
+        console.error('Audio playback error:', e);
+        URL.revokeObjectURL(url);
+        reject(new Error('Playback failed'));
+      };
+      
+      audio.play().catch((e) => {
+        console.error('Audio play() rejected:', e);
+        URL.revokeObjectURL(url);
+        reject(e);
+      });
     });
   }, []);
 
   const hasRecording = useCallback(() => {
-    return audioUrlRef.current !== null;
+    return audioBlobRef.current !== null;
   }, []);
 
   const clearRecording = useCallback(() => {
-    if (audioUrlRef.current) {
-      URL.revokeObjectURL(audioUrlRef.current);
-      audioUrlRef.current = null;
-    }
+    audioBlobRef.current = null;
     audioChunksRef.current = [];
   }, []);
 

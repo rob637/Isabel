@@ -39,55 +39,57 @@
 
 .memory-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  max-width: 400px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 500px;
   margin: 0 auto;
   flex: 1;
   align-content: center;
+  padding: 0.5rem;
 }
 
 .memory-card {
   aspect-ratio: 1;
   cursor: pointer;
   position: relative;
+  min-height: 120px;
 }
 
 .card-front,
 .card-back {
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
 .card-front {
   background: linear-gradient(145deg, #ffffff, #e6e6e6);
-  border: 3px solid #ddd;
+  border: 4px solid #ddd;
 }
 
 .card-question {
-  font-size: 2.5rem;
+  font-size: 4rem;
   color: #667eea;
 }
 
 .card-back {
-  border: 3px solid white;
+  border: 4px solid white;
 }
 
 .card-emoji {
-  font-size: 2rem;
+  font-size: 4rem;
 }
 
 .card-word {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #333;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .memory-card.matched {
@@ -100,15 +102,19 @@
 
 @media (max-width: 400px) {
   .memory-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
   
   .card-emoji {
-    font-size: 1.5rem;
+    font-size: 3.5rem;
   }
   
   .card-word {
-    font-size: 0.7rem;
+    font-size: 1rem;
+  }
+  
+  .card-question {
+    font-size: 3.5rem;
   }
 }

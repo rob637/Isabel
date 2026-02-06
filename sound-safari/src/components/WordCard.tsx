@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { WordCard as WordCardType } from '../types';
 import { useSpeech, useSoundEffects, useRecording } from '../hooks/useAudio';
@@ -18,6 +18,12 @@ export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const isRecordingRef = useRef(false);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    isRecordingRef.current = isRecording;
+  }, [isRecording]);
 
   const handleTap = () => {
     playPop();
@@ -30,12 +36,14 @@ export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
   const handleRecordTap = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (isRecording) {
+    if (isRecordingRef.current) {
       // Stop recording
-      await stopRecording();
+      const url = await stopRecording();
       setIsRecording(false);
-      setHasRecorded(true);
-      playSuccess();
+      if (url) {
+        setHasRecorded(true);
+        playSuccess();
+      }
     } else {
       // Start recording
       playPop();
@@ -48,16 +56,18 @@ export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
         setIsRecording(true);
         // Auto-stop after 3 seconds
         setTimeout(async () => {
-          if (isRecording) {
-            await stopRecording();
+          if (isRecordingRef.current) {
+            const url = await stopRecording();
             setIsRecording(false);
-            setHasRecorded(true);
-            playSuccess();
+            if (url) {
+              setHasRecorded(true);
+              playSuccess();
+            }
           }
         }, 3000);
       }
     }
-  }, [isRecording, startRecording, stopRecording, clearRecording, playPop, playSuccess]);
+  }, [startRecording, stopRecording, clearRecording, playPop, playSuccess]);
 
   const handlePlayTap = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
