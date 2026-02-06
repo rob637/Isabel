@@ -1,0 +1,158 @@
+.parent-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8F5E9 0%, #C8E6C9 100%);
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2E7D32;
+}
+
+.placeholder {
+  width: 80px;
+}
+
+.dashboard-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.stat-emoji {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.sounds-progress {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.sounds-progress h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.sound-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sound-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sound-bar-label {
+  width: 30px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sound-bar-container {
+  flex: 1;
+  height: 20px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sound-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  min-width: 4px;
+}
+
+.sound-bar-count {
+  width: 30px;
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+}
+
+.therapy-tips {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.therapy-tips h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.therapy-tips ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.therapy-tips li {
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.reset-button {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+  font-family: inherit;
+}
+
+.reset-button:hover {
+  background: #d32f2f;
+}

@@ -1,0 +1,190 @@
+.home {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFF5E6 0%, #FFE4C4 100%);
+  padding: 20px;
+  padding-bottom: 40px;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-emoji {
+  font-size: 48px;
+}
+
+.title-text {
+  font-size: 36px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FFD93D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header-btn {
+  background: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+  transition: box-shadow 0.3s ease;
+}
+
+.header-btn:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stickers-btn {
+  color: #FFD700;
+}
+
+.parent-btn {
+  color: #4CAF50;
+}
+
+.games-section {
+  margin-bottom: 40px;
+}
+
+.games-section h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  max-width: 500px;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  transition: box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.game-card.bubbles {
+  background: linear-gradient(135deg, #87CEEB 0%, #4169E1 100%);
+}
+
+.game-card.monster {
+  background: linear-gradient(135deg, #98D8C8 0%, #4CAF50 100%);
+}
+
+.game-card.memory {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.game-card.train {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.game-card.treasure {
+  background: linear-gradient(135deg, #f5deb3 0%, #daa520 100%);
+}
+
+.game-card.stars {
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+  border: 2px solid #FFD700;
+}
+
+.game-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.game-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sounds-section h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.difficulty-group {
+  margin-bottom: 30px;
+}
+
+.difficulty-group h3 {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.sounds-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.home-footer {
+  text-align: center;
+  padding-top: 30px;
+  color: #999;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .title-emoji {
+    font-size: 36px;
+  }
+  
+  .title-text {
+    font-size: 28px;
+  }
+  
+  .home-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .games-grid {
+    max-width: 100%;
+  }
+}

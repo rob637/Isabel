@@ -1,0 +1,67 @@
+.word-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  min-width: 200px;
+  min-height: 250px;
+  user-select: none;
+}
+
+.word-card:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+}
+
+.word-card.large {
+  min-width: 280px;
+  min-height: 350px;
+  padding: 40px;
+}
+
+.word-emoji {
+  font-size: 100px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.word-card.large .word-emoji {
+  font-size: 140px;
+}
+
+.word-text {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.word-card.large .word-text {
+  font-size: 48px;
+}
+
+.first-letter {
+  font-size: 1.3em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rest-of-word {
+  color: #333;
+}
+
+.tap-hint {
+  font-size: 16px;
+  color: #888;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.word-card.large .tap-hint {
+  font-size: 20px;
+  padding: 10px 24px;
+}

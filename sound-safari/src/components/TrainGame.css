@@ -1,0 +1,154 @@
+.train-game {
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.train-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.train-header h1 {
+  color: white;
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.train-score {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.train-target {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.target-sound {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sound-letter {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FF6B6B;
+  text-shadow: 2px 2px 0 #FFE66D;
+}
+
+.train-track {
+  background: linear-gradient(to bottom, transparent 45%, #8B4513 45%, #8B4513 55%, transparent 55%);
+  padding: 2rem 1rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.train {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: fit-content;
+}
+
+.locomotive {
+  font-size: 4rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.train-car {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  min-width: 80px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.car-emoji {
+  font-size: 2rem;
+}
+
+.car-word {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0.25rem;
+}
+
+.train-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.option-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 4px solid;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.option-emoji {
+  font-size: 2.5rem;
+}
+
+.option-word {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 400px) {
+  .locomotive {
+    font-size: 3rem;
+  }
+  
+  .train-car {
+    min-width: 60px;
+    padding: 0.5rem;
+  }
+  
+  .car-emoji {
+    font-size: 1.5rem;
+  }
+  
+  .option-button {
+    padding: 1rem;
+  }
+  
+  .option-emoji {
+    font-size: 2rem;
+  }
+}

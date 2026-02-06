@@ -1,0 +1,143 @@
+.monster-game {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #98D8C8 0%, #4CAF50 100%);
+}
+
+.monster-game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.monster-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  flex: 1;
+}
+
+.monster {
+  font-size: 150px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+  margin-bottom: 20px;
+}
+
+.speech-bubble {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  max-width: 300px;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 15px solid transparent;
+  border-bottom-color: white;
+}
+
+.want-text {
+  font-size: 18px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.wanted-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.wanted-emoji {
+  font-size: 60px;
+}
+
+.wanted-word {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.wanted-sound {
+  color: #FF6B6B;
+  font-size: 1.2em;
+}
+
+.tap-hint {
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+.food-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.food-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+  transition: box-shadow 0.3s ease;
+}
+
+.food-option:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.food-option:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.option-emoji {
+  font-size: 50px;
+  margin-bottom: 8px;
+}
+
+.option-word {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+@media (max-width: 600px) {
+  .monster {
+    font-size: 120px;
+  }
+  
+  .wanted-emoji {
+    font-size: 48px;
+  }
+  
+  .wanted-word {
+    font-size: 24px;
+  }
+  
+  .option-emoji {
+    font-size: 40px;
+  }
+}

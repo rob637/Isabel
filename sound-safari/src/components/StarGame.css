@@ -1,0 +1,156 @@
+.star-game {
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.star-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.star-header h1 {
+  color: #FFD700;
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 0 0 10px #FFD700, 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.star-header .back-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.star-score {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #1a1a2e;
+}
+
+.star-target {
+  text-align: center;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.target-instruction {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  color: white;
+  display: inline-block;
+  border: 3px solid;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.sound-letter {
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.remaining {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+
+.star-sky {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.background-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-star {
+  position: absolute;
+  color: white;
+  opacity: 0.4;
+  font-size: 0.8rem;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+.falling-star {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 50%;
+  border: 3px solid;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  min-width: 80px;
+  min-height: 80px;
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  z-index: 5;
+}
+
+.falling-star::before {
+  content: '⭐';
+  position: absolute;
+  font-size: 1.5rem;
+  top: -15px;
+  animation: glow 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.star-emoji {
+  font-size: 2rem;
+}
+
+.star-word {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 400px) {
+  .falling-star {
+    min-width: 60px;
+    min-height: 60px;
+    padding: 0.75rem;
+  }
+  
+  .star-emoji {
+    font-size: 1.5rem;
+  }
+  
+  .star-word {
+    font-size: 0.7rem;
+  }
+}

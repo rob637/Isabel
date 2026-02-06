@@ -1,0 +1,100 @@
+.sticker-book {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFE4E1 0%, #FFB6C1 100%);
+  padding: 20px;
+}
+
+.sticker-book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sticker-book-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #E91E63;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticker-count {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #E91E63;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sticker-progress {
+  background: rgba(255, 255, 255, 0.5);
+  height: 12px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.sticker-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+  flex: 1;
+}
+
+.sticker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sticker-item.locked {
+  background: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.sticker-item.unlocked:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.sticker-emoji {
+  font-size: 50px;
+  margin-bottom: 8px;
+}
+
+.sticker-item.locked .sticker-emoji {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.sticker-name {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+.sticker-hint {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #E91E63;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  margin-top: 20px;
+}
