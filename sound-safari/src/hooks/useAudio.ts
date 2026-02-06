@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 // Use Web Speech API for text-to-speech
 export function useSpeech() {
@@ -199,20 +199,20 @@ export function useSoundEffects() {
 export function useRecording() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const audioBlobRef = useRef<Blob | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const startRecording = useCallback(async (): Promise<boolean> => {
     try {
       // Clean up previous recording
-      audioBlobRef.current = null;
+      setAudioBlob(null);
       audioChunksRef.current = [];
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
       
       // Try to use a widely supported format
-      let options = {};
+      let options: MediaRecorderOptions = {};
       if (MediaRecorder.isTypeSupported('audio/webm')) {
         options = { mimeType: 'audio/webm' };
       } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
@@ -237,7 +237,7 @@ export function useRecording() {
     }
   }, []);
 
-  const stopRecording = useCallback((): Promise<string | null> => {
+  const stopRecording = useCallback((): Promise<Blob | null> => {
     return new Promise((resolve) => {
       const mediaRecorder = mediaRecorderRef.current;
       
@@ -255,8 +255,9 @@ export function useRecording() {
         
         if (audioChunksRef.current.length > 0) {
           const mimeType = mediaRecorder.mimeType || 'audio/webm';
-          audioBlobRef.current = new Blob(audioChunksRef.current, { type: mimeType });
-          resolve(URL.createObjectURL(audioBlobRef.current));
+          const blob = new Blob(audioChunksRef.current, { type: mimeType });
+          setAudioBlob(blob);
+          resolve(blob);
         } else {
           resolve(null);
         }
@@ -266,15 +267,16 @@ export function useRecording() {
     });
   }, []);
 
-  const playRecording = useCallback((): Promise<void> => {
+  const playRecording = useCallback((blob?: Blob): Promise<void> => {
     return new Promise((resolve, reject) => {
-      if (!audioBlobRef.current) {
+      const blobToPlay = blob || audioBlob;
+      if (!blobToPlay) {
         console.error('No recording blob available');
         reject(new Error('No recording available'));
         return;
       }
 
-      const url = URL.createObjectURL(audioBlobRef.current);
+      const url = URL.createObjectURL(blobToPlay);
       const audio = new Audio(url);
       
       audio.onended = () => {
@@ -294,16 +296,12 @@ export function useRecording() {
         reject(e);
       });
     });
-  }, []);
-
-  const hasRecording = useCallback(() => {
-    return audioBlobRef.current !== null;
-  }, []);
+  }, [audioBlob]);
 
   const clearRecording = useCallback(() => {
-    audioBlobRef.current = null;
+    setAudioBlob(null);
     audioChunksRef.current = [];
   }, []);
 
-  return { startRecording, stopRecording, playRecording, hasRecording, clearRecording };
+  return { startRecording, stopRecording, playRecording, audioBlob, clearRecording };
 }

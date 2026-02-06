@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { WordCard as WordCardType } from '../types';
 import { useSpeech, useSoundEffects, useRecording } from '../hooks/useAudio';
@@ -13,17 +13,13 @@ interface WordCardProps {
 export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
   const { speakWord } = useSpeech();
   const { playPop, playSuccess } = useSoundEffects();
-  const { startRecording, stopRecording, playRecording, hasRecording, clearRecording } = useRecording();
+  const { startRecording, stopRecording, playRecording, audioBlob } = useRecording();
   
   const [isRecording, setIsRecording] = useState(false);
-  const [hasRecorded, setHasRecorded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const isRecordingRef = useRef(false);
-  
-  // Keep ref in sync with state
-  useEffect(() => {
-    isRecordingRef.current = isRecording;
-  }, [isRecording]);
+  const [recordError, setRecordError] = useState<string | null>(null);
+  const autoStopTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const recordedBlobRef = useRef<Blob | null>(null);
 
   const handleTap = () => {
     playPop();
@@ -35,54 +31,67 @@ export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
 
   const handleRecordTap = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
+    setRecordError(null);
     
-    if (isRecordingRef.current) {
+    if (isRecording) {
       // Stop recording
-      const url = await stopRecording();
+      if (autoStopTimeoutRef.current) {
+        clearTimeout(autoStopTimeoutRef.current);
+        autoStopTimeoutRef.current = null;
+      }
       setIsRecording(false);
-      if (url) {
-        setHasRecorded(true);
+      const blob = await stopRecording();
+      if (blob) {
+        recordedBlobRef.current = blob;
         playSuccess();
       }
     } else {
       // Start recording
       playPop();
-      // Clear any previous recording
-      clearRecording();
-      setHasRecorded(false);
+      recordedBlobRef.current = null;
       
-      const started = await startRecording();
-      if (started) {
-        setIsRecording(true);
-        // Auto-stop after 3 seconds
-        setTimeout(async () => {
-          if (isRecordingRef.current) {
-            const url = await stopRecording();
+      try {
+        const started = await startRecording();
+        if (started) {
+          setIsRecording(true);
+          // Auto-stop after 3 seconds
+          autoStopTimeoutRef.current = setTimeout(async () => {
             setIsRecording(false);
-            if (url) {
-              setHasRecorded(true);
+            const blob = await stopRecording();
+            if (blob) {
+              recordedBlobRef.current = blob;
               playSuccess();
             }
-          }
-        }, 3000);
+          }, 3000);
+        } else {
+          setRecordError('Mic access denied');
+        }
+      } catch (err) {
+        console.error('Recording error:', err);
+        setRecordError('Recording failed');
       }
     }
-  }, [startRecording, stopRecording, clearRecording, playPop, playSuccess]);
+  }, [isRecording, startRecording, stopRecording, playPop, playSuccess]);
+
+  // Use audioBlob from hook or our local ref
+  const hasRecorded = audioBlob !== null || recordedBlobRef.current !== null;
 
   const handlePlayTap = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (!hasRecording()) return;
+    const blobToPlay = recordedBlobRef.current || audioBlob;
+    if (!blobToPlay) return;
     
     playPop();
     setIsPlaying(true);
     try {
-      await playRecording();
+      await playRecording(blobToPlay);
     } catch (error) {
       console.error('Playback error:', error);
     }
     setIsPlaying(false);
-  }, [playRecording, hasRecording, playPop]);
+  }, [playRecording, audioBlob, playPop]);
 
   return (
     <motion.div
@@ -156,6 +165,10 @@ export function WordCard({ word, onComplete, size = 'normal' }: WordCardProps) {
             </motion.button>
           )}
         </AnimatePresence>
+        
+        {recordError && (
+          <div className="record-error">{recordError}</div>
+        )}
       </div>
     </motion.div>
   );
